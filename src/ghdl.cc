@@ -1149,6 +1149,10 @@ static RTLIL::Module *import_module(RTLIL::Design *design, GhdlSynth::Module m)
 						cell->setParam(to_str(get_param_name(submod, idx)), cst);
 					}
 				}
+				//  Carry instance attributes (eg. from `attribute foo of inst : label`)
+				//  over to the RTLIL cell.  Without this, label, component and
+				//  blackbox-instance attributes are silently dropped.
+				add_attributes_from_instance(design, *cell, inst);
 			}
 			break;
 		case Id_Signal:
